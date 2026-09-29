@@ -1,0 +1,232 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-body: 'Inter', sans-serif;
+    --font-display: 'Instrument Serif', serif;
+
+    --bg: 0 0% 4%;
+    --surface: 0 0% 8%;
+    --text: 0 0% 96%;
+    --muted: 0 0% 53%;
+    --stroke: 0 0% 12%;
+    --accent: 0 0% 96%;
+  }
+
+  * {
+    @apply border-stroke;
+  }
+
+  html {
+    /* Lenis handles smooth scrolling */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    @apply bg-bg text-text-primary font-body antialiased;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply text-balance;
+  }
+
+  ::selection {
+    @apply bg-stroke/50 text-text-primary;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent/50 ring-offset-2 ring-offset-bg;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* ---------- Accent gradient ---------- */
+  .accent-gradient {
+    @apply bg-gradient-to-r from-[#89AACC] to-[#4E85BF] bg-[length:200%_200%] animate-gradient-shift;
+  }
+
+  .accent-gradient-text {
+    @apply accent-gradient bg-clip-text text-transparent;
+  }
+
+  /* Gradient border on hover, painted via background-clip so it never
+     disappears behind the parent's own background. */
+  .accent-gradient-border {
+    border-color: hsl(var(--stroke));
+    transition: border-color 0.3s ease;
+  }
+
+  .accent-gradient-border:hover,
+  .accent-gradient-border:focus-visible {
+    border-color: transparent;
+    background-image:
+      linear-gradient(hsl(var(--bg)), hsl(var(--bg))),
+      linear-gradient(90deg, #89AACC 0%, #4E85BF 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    background-size: 100% 100%, 200% 100%;
+    animation: gradient-shift 6s ease-in-out infinite;
+  }
+
+  .glass-card {
+    @apply bg-surface/80 backdrop-blur-md border border-stroke;
+  }
+
+  .halftone-overlay {
+    @apply relative overflow-hidden;
+  }
+
+  .halftone-overlay::after {
+    content: '';
+    @apply absolute inset-0 opacity-20 pointer-events-none;
+    background-image: radial-gradient(circle, #000 1px, transparent 1px);
+    background-size: 4px 4px;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn-primary {
+    @apply bg-text-primary text-bg rounded-full text-sm px-7 py-3.5 font-medium
+           transition-all duration-300 ease-out
+           hover:bg-bg hover:text-white
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
+  }
+
+  .btn-secondary {
+    @apply border-2 border-stroke bg-bg text-text-primary rounded-full text-sm px-7 py-3.5 font-medium
+           transition-all duration-300 ease-out
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-bg;
+  }
+
+  /* ---------- Nav ---------- */
+  .nav-link {
+    @apply px-4 py-2 rounded-full text-sm font-medium transition-all duration-200
+           text-muted hover:text-text-primary hover:bg-stroke/50
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50;
+  }
+
+  .nav-link-active {
+    @apply text-text-primary bg-stroke/50;
+  }
+
+  /* ---------- Section type ---------- */
+  .section-header {
+    @apply max-w-3xl;
+  }
+
+  .section-eyebrow {
+    @apply text-xs text-muted tracking-[0.3em] mb-4;
+  }
+
+  .section-heading {
+    @apply font-display italic text-4xl md:text-5xl lg:text-6xl leading-[1.1] tracking-tight text-text-primary;
+  }
+
+  .section-subtext {
+    @apply mt-4 text-base md:text-lg text-muted max-w-2xl leading-relaxed;
+  }
+
+  /* ---------- Cards ---------- */
+  .project-card {
+    @apply bg-surface border border-stroke rounded-3xl overflow-hidden transition-all duration-500 ease-out
+           hover:scale-[1.02] hover:border-accent/30;
+  }
+
+  .skill-card {
+    @apply glass-card rounded-2xl p-6 md:p-8 transition-all duration-300
+           hover:border-accent/30 hover:shadow-[0_0_30px_rgba(137,170,204,0.1)];
+  }
+
+  .certification-card {
+    @apply glass-card rounded-2xl p-6 md:p-8 transition-all duration-300
+           hover:border-accent/30 hover:shadow-[0_0_30px_rgba(137,170,204,0.1)]
+           hover:scale-[1.02];
+  }
+
+  .journal-entry {
+    @apply glass-card rounded-2xl p-6 md:p-8 transition-all duration-300
+           hover:border-accent/30 hover:shadow-[0_0_30px_rgba(137,170,204,0.1)];
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ---------- Required keyframes ---------- */
+  @keyframes scroll-down {
+    0% {
+      transform: translateY(-100%);
+    }
+    100% {
+      transform: translateY(200%);
+    }
+  }
+
+  @keyframes role-fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes gradient-pulse {
+    0% {
+      opacity: 0.35;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.9;
+      transform: scale(1.6);
+    }
+    100% {
+      opacity: 0.35;
+      transform: scale(1);
+    }
+  }
+}
