@@ -35,6 +35,14 @@
     @apply text-balance;
   }
 
+  /* Custom cursor owns the pointer on precise devices. */
+  @media (hover: hover) and (pointer: fine) {
+    body,
+    body * {
+      cursor: none !important;
+    }
+  }
+
   ::selection {
     @apply bg-stroke/50 text-text-primary;
   }

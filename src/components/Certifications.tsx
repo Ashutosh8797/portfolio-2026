@@ -2,28 +2,37 @@
 
 import { motion } from 'framer-motion';
 import { SectionHeader } from './SectionHeader';
+import { DriftHeader, GhostWord } from './ScrollEffects';
+import { useSectionDrive, useVelocitySkew } from '@/hooks/useScrollEffects';
 import { certifications, certificationsDriveUrl } from '@/data/portfolio';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 export function Certifications() {
   const prefersReducedMotion = usePrefersReducedMotion();
+  const animated = !prefersReducedMotion;
+  const { ref: driveRef, progress } = useSectionDrive();
+  const skewX = useVelocitySkew();
 
   return (
     <section
       id="certifications"
-      className="relative z-20 bg-bg py-12 md:py-16"
+      className="relative z-20 overflow-hidden bg-bg py-12 md:py-16"
       aria-labelledby="certifications-heading"
     >
-      <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
-        <SectionHeader
-          id="certifications-heading"
-          eyebrow="Certifications"
-          heading="Certifications"
-          subtext="Verified certifications across cloud, software engineering, databases, and English proficiency."
-        />
+      <GhostWord animated={animated} text="Proof" className="left-0 top-10 text-[18vw]" />
+      <div ref={driveRef} className="relative mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
+        <DriftHeader progress={progress} animated={animated}>
+          <SectionHeader
+            id="certifications-heading"
+            eyebrow="Certifications"
+            heading="Certifications"
+            subtext="Verified certifications across cloud, software engineering, databases, and English proficiency."
+          />
+        </DriftHeader>
 
         <motion.div
           className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-4"
+          style={animated ? { skewX } : undefined}
           initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}

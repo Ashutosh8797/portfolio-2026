@@ -320,11 +320,12 @@ function ShowCard({
   onOpen: (item: Exploration) => void;
 }) {
   return (
-    <motion.button
-      type="button"
-      onClick={() => onOpen(item)}
-      aria-label={`Open ${item.title} details`}
-      className="glass-card group relative aspect-square h-[46vh] w-auto shrink-0 cursor-pointer overflow-hidden rounded-2xl p-6 text-center transition-[border-color,box-shadow] duration-300 hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 md:h-[54vh] md:p-8"
+      <motion.button
+        type="button"
+        data-cursor="view"
+        onClick={() => onOpen(item)}
+        aria-label={`Open ${item.title} details`}
+        className="glass-card group relative aspect-square h-[46vh] w-auto shrink-0 cursor-pointer overflow-hidden rounded-2xl p-6 text-center transition-[border-color,box-shadow] duration-300 hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 md:h-[54vh] md:p-8"
       style={{ skewX, rotate: item.rotation }}
       initial={{ opacity: 0, y: 40 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -387,6 +388,7 @@ function RiverCard({
     >
       <motion.button
         type="button"
+        data-cursor="view"
         onClick={() => onOpen(item)}
         aria-label={`Open ${item.title} details`}
         className="glass-card group aspect-square w-full cursor-pointer rounded-2xl p-6 text-center transition-[border-color,box-shadow] duration-300 hover:border-accent/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 md:p-8"

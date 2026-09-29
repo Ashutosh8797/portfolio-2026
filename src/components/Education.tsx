@@ -2,29 +2,38 @@
 
 import { motion } from 'framer-motion';
 import { SectionHeader } from './SectionHeader';
+import { DriftHeader, GhostWord } from './ScrollEffects';
+import { useSectionDrive, useVelocitySkew } from '@/hooks/useScrollEffects';
 import { education, type EducationEntry } from '@/data/portfolio';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 export function Education() {
   const prefersReducedMotion = usePrefersReducedMotion();
+  const animated = !prefersReducedMotion;
+  const { ref: driveRef, progress } = useSectionDrive();
+  const skewX = useVelocitySkew();
 
   return (
     <section
       id="about"
-      className="relative z-10 bg-bg py-12 md:py-16"
+      className="relative z-10 overflow-hidden bg-bg py-12 md:py-16"
       aria-labelledby="education-heading"
     >
-      <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
-        <SectionHeader
-          id="education-heading"
-          eyebrow="Education"
-          heading="The foundation"
-          headingHighlight="foundation"
-          subtext="My academic journey from school through university, specialising in Artificial Intelligence and Autonomous Systems."
-        />
+      <GhostWord animated={animated} text="Study" reverse className="left-0 top-8 text-[20vw]" />
+      <div ref={driveRef} className="relative mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
+        <DriftHeader progress={progress} animated={animated}>
+          <SectionHeader
+            id="education-heading"
+            eyebrow="Education"
+            heading="The foundation"
+            headingHighlight="foundation"
+            subtext="My academic journey from school through university, specialising in Artificial Intelligence and Autonomous Systems."
+          />
+        </DriftHeader>
 
         <motion.div
           className="mt-12 space-y-5 md:space-y-6"
+          style={animated ? { skewX } : undefined}
           initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}

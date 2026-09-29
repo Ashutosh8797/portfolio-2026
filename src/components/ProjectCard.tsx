@@ -19,6 +19,7 @@ export function ProjectCard({
 
   return (
     <motion.article
+      data-cursor="view"
       className={`project-card halftone-overlay ${colSpan}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

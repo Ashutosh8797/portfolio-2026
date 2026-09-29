@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 import { SectionHeader } from './SectionHeader';
+import { DriftHeader, GhostWord } from './ScrollEffects';
+import { useSectionDrive, useVelocitySkew } from '@/hooks/useScrollEffects';
 import { skills } from '@/data/portfolio';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
@@ -16,20 +18,27 @@ const skillCategories = [
 
 export function Skills() {
   const prefersReducedMotion = usePrefersReducedMotion();
+  const animated = !prefersReducedMotion;
+  const { ref: driveRef, progress } = useSectionDrive();
+  const skewX = useVelocitySkew();
 
   return (
-    <section id="skills" className="bg-bg py-12 md:py-16" aria-labelledby="skills-heading">
-      <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
-        <SectionHeader
-          id="skills-heading"
-          eyebrow="Technical Stack"
-          heading="Tools I build with"
-          headingHighlight="build with"
-          subtext="A growing toolkit across software development, artificial intelligence, computer vision, and edge computing."
-        />
+    <section id="skills" className="relative overflow-hidden bg-bg py-12 md:py-16" aria-labelledby="skills-heading">
+      <GhostWord animated={animated} text="Stack" reverse className="left-0 top-10 text-[20vw]" />
+      <div ref={driveRef} className="relative mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
+        <DriftHeader progress={progress} animated={animated}>
+          <SectionHeader
+            id="skills-heading"
+            eyebrow="Technical Stack"
+            heading="Tools I build with"
+            headingHighlight="build with"
+            subtext="A growing toolkit across software development, artificial intelligence, computer vision, and edge computing."
+          />
+        </DriftHeader>
 
         <motion.div
           className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3"
+          style={animated ? { skewX } : undefined}
           initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}

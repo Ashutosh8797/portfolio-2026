@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { useLenis } from '@/hooks/useLenis';
 import { LoadingScreen } from '@/components/LoadingScreen';
+import { Cursor } from '@/components/Cursor';
 import { Navbar } from '@/components/Navbar';
 import { Hero } from '@/components/Hero';
 import { SelectedWork } from '@/components/SelectedWork';
@@ -34,6 +35,7 @@ export function Index() {
         {isLoading && <LoadingScreen onComplete={handleComplete} />}
       </AnimatePresence>
 
+      <Cursor />
       <Navbar />
 
       <main>
