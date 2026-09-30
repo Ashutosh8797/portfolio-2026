@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { SectionHeader } from './SectionHeader';
+import { Marquee } from './Marquee';
 import { DriftHeader, GhostWord } from './ScrollEffects';
 import { useSectionDrive, useVelocitySkew } from '@/hooks/useScrollEffects';
 import { education, type EducationEntry } from '@/data/portfolio';
@@ -44,6 +45,10 @@ export function Education() {
           ))}
         </motion.div>
       </div>
+      <Marquee
+        duration={40}
+        items={[...education.map((e) => e.institution), ...(education[0].coursework ?? [])]}
+      />
     </section>
   );
 }

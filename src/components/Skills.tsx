@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { SectionHeader } from './SectionHeader';
+import { Marquee } from './Marquee';
 import { DriftHeader, GhostWord } from './ScrollEffects';
 import { useSectionDrive, useVelocitySkew } from '@/hooks/useScrollEffects';
 import { skills } from '@/data/portfolio';
@@ -54,6 +55,18 @@ export function Skills() {
           ))}
         </motion.div>
       </div>
+      <Marquee
+        reverse
+        duration={44}
+        items={[
+          ...skills.languages,
+          ...skills.fundamentals,
+          ...skills.aiMl,
+          ...skills.webDevelopment,
+          ...skills.databasesTools,
+          ...skills.hardwareEdge,
+        ]}
+      />
     </section>
   );
 }
@@ -75,6 +88,9 @@ function SkillCard({
       viewport={{ once: true, margin: '-50px' }}
       transition={{ duration: 0.6, delay: categoryIndex * 0.1, ease: 'easeOut' }}
       whileHover={prefersReducedMotion ? undefined : { y: -8, transition: { duration: 0.3, ease: 'easeOut' } }}
+      style={{
+        transition: 'transform 0.3s ease-out',
+      }}
     >
       <div className="mb-4 flex items-center gap-3">
         <span className="text-3xl" aria-hidden="true">

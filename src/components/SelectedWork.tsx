@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { SectionHeader } from './SectionHeader';
+import { Marquee } from './Marquee';
 import { ProjectCard } from './ProjectCard';
 import { DriftHeader, GhostWord } from './ScrollEffects';
 import { useSectionDrive, useVelocitySkew } from '@/hooks/useScrollEffects';
@@ -71,6 +72,7 @@ export function SelectedWork() {
           ))}
         </motion.div>
       </div>
+      <Marquee items={projects.map((p) => p.title)} duration={30} />
     </section>
   );
 }

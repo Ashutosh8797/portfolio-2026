@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { SectionHeader } from './SectionHeader';
+import { Marquee } from './Marquee';
 import { DriftHeader, GhostWord } from './ScrollEffects';
 import { useSectionDrive, useVelocitySkew } from '@/hooks/useScrollEffects';
 import { journalEntries } from '@/data/portfolio';
@@ -45,6 +46,7 @@ export function Journal() {
           ))}
         </motion.div>
       </div>
+      <Marquee reverse duration={30} items={journalEntries.map((e) => e.title)} />
     </section>
   );
 }

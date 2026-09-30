@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { SectionHeader } from './SectionHeader';
+import { Marquee } from './Marquee';
 import { DriftHeader, GhostWord } from './ScrollEffects';
 import { useSectionDrive, useVelocitySkew } from '@/hooks/useScrollEffects';
 import { certifications, certificationsDriveUrl } from '@/data/portfolio';
@@ -68,6 +69,7 @@ export function Certifications() {
           </motion.a>
         </motion.div>
       </div>
+      <Marquee reverse duration={36} items={certifications.map((c) => c.title)} />
     </section>
   );
 }

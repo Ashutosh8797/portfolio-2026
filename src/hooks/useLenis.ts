@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -11,21 +11,29 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function useLenis() {
   const prefersReducedMotion = usePrefersReducedMotion();
+  const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('down');
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    // Requirement 32: no smooth-scroll hijacking when reduced motion is on.
     if (typeof window === 'undefined' || prefersReducedMotion) return;
 
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 2.0,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 0.85,
+      touchMultiplier: 2.5,
+      infinite: false,
+      gestureOrientation: 'vertical',
     });
+    lenisRef.current = lenis;
     setLenisInstance(lenis);
 
-    // Keep GSAP ScrollTrigger in sync and publish scroll velocity
-    // for Framer Motion scroll-reactive effects (e.g. velocity skew).
     lenis.on('scroll', (e: Lenis) => {
       scrollVelocity.set(e.velocity ?? 0);
+      setScrollProgress(e.progress);
+      setScrollDirection(e.velocity > 0 ? 'down' : e.velocity < 0 ? 'up' : 'down');
       ScrollTrigger.update();
     });
 
@@ -42,4 +50,6 @@ export function useLenis() {
       setLenisInstance(null);
     };
   }, [prefersReducedMotion]);
+
+  return { lenis: lenisRef.current, scrollDirection, scrollProgress };
 }
